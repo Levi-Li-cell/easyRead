@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; script-src 'self'" />
+  <title>every-read</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- 标题栏（可拖动窗口） -->
+  <header id="titlebar">
+    <div class="tb-title">
+      <span class="tb-logo"></span>
+      <span>every-read</span>
+      <span id="protectDot" class="protect-dot on" title="屏幕共享隐身：开启"></span>
+    </div>
+    <div class="tb-actions">
+      <button id="btnProtect" class="tb-btn" title="切换屏幕共享隐身（共享/录屏时窗口不可见）">🛡</button>
+      <button id="btnPin" class="tb-btn" title="切换窗口置顶">📌</button>
+      <button id="btnSettings" class="tb-btn" title="设置">⚙</button>
+      <button id="btnHide" class="tb-btn" title="隐藏（用全局快捷键唤回）">—</button>
+    </div>
+  </header>
+
+  <main id="mainArea">
+    <!-- 空状态 / 拖放区 -->
+    <section id="emptyState">
+      <div class="drop-inner">
+        <div class="drop-icon">📖</div>
+        <h1>把 Markdown 拖进来</h1>
+        <p>支持 .md / .markdown / .txt · 虚拟滚动 &amp; 分页两种阅读模式</p>
+        <div class="drop-actions">
+          <button id="btnPickEmpty" class="primary">选择文件…</button>
+          <button id="btnDemo">加载示例长文</button>
+        </div>
+        <p class="drop-hint" id="shortcutHint"></p>
+      </div>
+    </section>
+
+    <!-- 阅读区：虚拟滚动模式 -->
+    <section id="readerView" hidden>
+      <div id="scrollViewport" tabindex="0">
+        <div id="scrollContent"></div>
+      </div>
+
+      <!-- 阅读区：分页模式 -->
+      <div id="pageWrap" hidden>
+        <div id="pageContent"></div>
+        <div id="pageNav">
+          <button id="pagePrev">← 上一页</button>
+          <span id="pageLabel">1 / 1</span>
+          <button id="pageNext">下一页 →</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="progressTrack" hidden><div id="progressBar"></div></div>
+  </main>
+
+  <!-- 状态栏 -->
+  <footer id="statusbar">
+    <span id="fileName" title="">未打开文件</span>
+    <span id="docStats"></span>
+    <div class="sb-spacer"></div>
+    <div class="seg" id="modeSeg">
+      <button data-mode="scroll" class="seg-btn active" title="虚拟滚动模式（长文流畅浏览）">滚动</button>
+      <button data-mode="page" class="seg-btn" title="分页模式（按屏翻页）">分页</button>
+    </div>
+    <div class="sb-actions">
+      <button id="fontMinus" title="减小字号">A−</button>
+      <button id="fontPlus" title="增大字号">A+</button>
+      <button id="btnOpen" title="打开 Markdown 文件">打开…</button>
+    </div>
+  </footer>
+
+  <!-- 设置弹窗 -->
+  <div id="settingsModal" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2>设置</h2>
+        <button id="btnCloseSettings" class="tb-btn" title="关闭">✕</button>
+      </div>
+
+      <div class="field">
+        <label>全局快捷键（一键显隐）</label>
+        <div class="shortcut-row">
+          <input id="shortcutInput" readonly placeholder="点击右侧录入" />
+          <button id="btnRecordShortcut" class="primary">录入</button>
+        </div>
+        <p class="field-hint" id="shortcutHint2">点击「录入」后按下新组合键（需含 Ctrl / Alt / Win，或 F1-F24），Esc 取消</p>
+      </div>
+
+      <div class="field">
+        <label>窗口不透明度 <span id="opacityVal">100%</span></label>
+        <input id="opacityRange" type="range" min="30" max="100" step="5" />
+      </div>
+
+      <div class="field">
+        <label>字号 <span id="fontSizeVal">15px</span></label>
+        <input id="fontSizeRange" type="range" min="12" max="22" step="1" />
+      </div>
+
+      <div class="field checks">
+        <label class="check"><input id="chkAlwaysOnTop" type="checkbox" /> 窗口置顶</label>
+        <label class="check"><input id="chkProtect" type="checkbox" /> 屏幕共享隐身（共享/录屏看不到本窗口）</label>
+      </div>
+
+      <div class="field">
+        <label>最近文件</label>
+        <ul id="recentsList" class="recents"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="toasts"></div>
+  <div id="measureLayer" aria-hidden="true"></div>
+
+  <script src="../node_modules/markdown-it/dist/markdown-it.min.js"></script>
+  <script src="../lib/mdblocks.js"></script>
+  <script src="../lib/shortcuts.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

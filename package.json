@@ -1,0 +1,42 @@
+{
+  "name": "every-read",
+  "version": "1.0.0",
+  "description": "every-read — 可自定义快捷键一键显隐的 Markdown 悬浮阅读器（虚拟滚动 / 分页双模式）",
+  "main": "main.js",
+  "author": "every-read",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test \"test/*.test.js\"",
+    "gen-icon": "node scripts/gen-icon.js",
+    "dist": "electron-builder --win portable --publish never"
+  },
+  "dependencies": {
+    "markdown-it": "^14.1.0"
+  },
+  "devDependencies": {
+    "electron": "37.3.1",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.everyread.app",
+    "productName": "every-read",
+    "directories": {
+      "output": "release"
+    },
+    "electronDist": "node_modules/electron/dist",
+    "files": [
+      "main.js",
+      "preload.js",
+      "lib/**/*",
+      "renderer/**/*",
+      "assets/icon.png"
+    ],
+    "win": {
+      "target": ["portable"],
+      "icon": "assets/icon.ico"
+    },
+    "portable": {
+      "artifactName": "every-read-1.0.0-portable.exe"
+    }
+  }
+}
