@@ -3,7 +3,7 @@
 可**自定义快捷键一键显隐**的 Markdown 悬浮阅读器（Electron）。
 参考 `inter-assistant` 桌面端的隐身/快捷键实现思路，聚焦"读文档"这一件事。
 
-![image-20261110185400645](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20261110185400645.png)
+![微信图片_20261110185313_297_41](E:\VUE_Augemnet\every_read\assets\微信图片_20261110185313_297_41.jpg)
 
 ## 功能
 
